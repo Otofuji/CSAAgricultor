@@ -58,6 +58,32 @@ module.exports = (app, repository) => {
         return next(err);
     });
 
+    app.get('/users/autocomplete/:input', function(req, res) {
+      var fs = require('fs');
+      var request = require('request');
+      request('http://www.mocky.io/v2/5c05b09c3300006f00e8132d', function (error, response, body) {
+        var input = req.params.input;
+        var db = JSON.parse(body);
+        
+        var cultivo = [];
+        for (var i = 0; i < db.length; i++){
+          cultivo.push(db[i].cultivo);
+        }
+        var stringSimilarity = require('string-similarity');
+        var matches = stringSimilarity.findBestMatch(input, cultivo);
+        
+        if(matches.bestMatch.rating >= 0.5){
+            res.send(matches.bestMatch.target);
+
+        }
+        else {
+            res.send(input)
+        }
+        
+});
+  
+});
+
 }
 
 
