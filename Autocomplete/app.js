@@ -1,3 +1,29 @@
+var http = require('http');
+
+//create a server object:
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write(req.url); //write a response to the client
+  res.end(); //end the response
+}).listen(8080); //the server object listens on port 8080
+
+
+
+app.get('/autocomplete/:input', function(req, res) {
+  var fs = require('fs');
+  var input = req.params.input;
+  var db = ;
+  var cultivo = [];
+  for (var i = 0; i < db.length; i++){
+    cultivo.push(db[i].cultivo)l;
+  }
+  var stringSimilarity = require('string-similarity');
+  var matches = stringSimilarity.findBestMatch(input, cultivo);
+  res.send(matches);
+});
+
+
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
