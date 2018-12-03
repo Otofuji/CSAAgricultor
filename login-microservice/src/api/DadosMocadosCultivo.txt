@@ -1,0 +1,18 @@
+[{
+    "_id": "0",
+    "cultivo": "Alface",
+    "muda_ou_semente": "null",
+    "dias_no_canteiro": "null",
+    "iniciar_colheita_em": "null",
+    "finalizar_colheitas_em": "null",
+    "Classificacao_nutricional": "null"
+},
+{
+    "_id": "1",
+    "cultivo": "Abobora",
+    "muda_ou_semente": "null",
+    "dias_no_canteiro": "null",
+    "iniciar_colheita_em": "null",
+    "finalizar_colheitas_em": "null",
+    "Classificacao_nutricional": "null"
+}]

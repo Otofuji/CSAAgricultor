@@ -58,21 +58,27 @@ module.exports = (app, repository) => {
         return next(err);
     });
 
-    app.get('/autocomplete/:input', function(req, res) {
+    app.get('/users/autocomplete/:input', function(req, res) {
       var fs = require('fs');
       var request = require('request');
-      request('http://www.mocky.io/v2/5c05818c3300006f00e812c2', function (error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+      request('http://www.mocky.io/v2/5c05b09c3300006f00e8132d', function (error, response, body) {
         var input = req.params.input;
         var db = JSON.parse(body);
+        
         var cultivo = [];
         for (var i = 0; i < db.length; i++){
           cultivo.push(db[i].cultivo);
         }
         var stringSimilarity = require('string-similarity');
         var matches = stringSimilarity.findBestMatch(input, cultivo);
-        res.send(matches);
+        
+        if(matches.bestMatch.rating >= 0.5){
+            res.send(matches.bestMatch.target);
+
+        }
+        else {
+            res.send(input)
+        }
         
 });
   
