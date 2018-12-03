@@ -7,42 +7,24 @@ http.createServer(function (req, res) {
   res.end(); //end the response
 }).listen(8080); //the server object listens on port 8080
 
-
-const request = require('request');
-
-request('http://www.mocky.io/v2/5c05818c3300006f00e812c2', { json: true }, (err, res, body) => {
-  if (err) { return console.log(err); }
-  console.log(body.url);
-  console.log(body.explanation);
-});
-
-const axios = require('axios');
-
-axios.get('http://www.mocky.io/v2/5c05818c3300006f00e812c2')
-  .then(response => {
-    console.log(response.data.url);
-    console.log(response.data.explanation);
-  })
-  .catch(error => {
-    console.log(error);
-  });
+module.exports = (app) => {
 
 app.get('/autocomplete/:input', function(req, res) {
+  console.log("Eric cuidado");
   var fs = require('fs');
   var request = require('request');
   request('http://www.mocky.io/v2/5c05818c3300006f00e812c2', function (error, response, body) {
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    var parsedWeather = JSON.parse(body);
     var input = req.params.input;
     var db = JSON.parse(body);
     var cultivo = [];
     for (var i = 0; i < db.length; i++){
-      cultivo.push(db[i].cultivo)l;
+      cultivo.push(db[i].cultivo);
     }
     var stringSimilarity = require('string-similarity');
     var matches = stringSimilarity.findBestMatch(input, cultivo);
-    res.send(matches);
+    res.json(input);
     
 });
   
@@ -91,3 +73,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+}
