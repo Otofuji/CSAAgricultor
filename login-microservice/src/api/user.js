@@ -84,6 +84,122 @@ module.exports = (app, repository) => {
   
 });
 
+    // Corrigir datas que entram aqui e retornar elas corrigidas pro 'res'
+    app.get('/inputs/dates/get_validate_date_format', function(req, res) {
+        var date_to_fix = req.params.dates;
+
+        if (! isISODate( date_to_fix ) ){
+            try {
+                var fixed_date = new Date(date_to_fix).toISOString()
+                res.status(200).send(fixed_date)
+            } catch {
+                console.log("O formato da data recebida nao foi reconhecido pelo parser de data, é necessario mudar o formato da data.");
+                console.error(error);
+                res.status(400)
+            }
+        } else {
+            var fixed_date = date_to_fix
+        }
+
+        res.status(200).send(date_to_fix)
+    });
+
+    // Corrigir datas que entram aqui e retornar elas corrigidas pro 'res'
+    app.get('/inputs/dates/get_current_date', function(req, res) {
+        
+        var date = new Date().toISOString()
+        res.status(200).send(date)
+    
+    });
+
+    // Corrigir datas que entram aqui e retornar elas corrigidas pro 'res'
+    app.get('/inputs/dates/fix_date_in_json_and_append_into_database', function(req, res) {
+        information = JSON.parse(req.params.info)
+        var date_to_fix = information.date;
+
+        if (! isISODate( date_to_fix ) ) {
+            try {
+                var fixed_date = new Date(date_to_fix).toISOString()
+            } catch {
+                console.log("O formato da data recebida nao foi reconhecido pelo parser de data, é necessario mudar o formato da data.");
+                console.error(error);
+                res.status(400)
+            }
+        } else {
+            var fixed_date = date_to_fix
+        }
+
+        information.date = fixed_date
+
+        try {
+            MongoClient.connect("mongodb://DATABASE-ADDRESS/DATABASE-NAME", function (err, db) {
+                    
+                db.collection('COLLECTION-NAME', function (err, collection) {
+                    
+                    collection.insert(information) {
+                        res.send(
+                            (err === null) ? { msg: '' } : { msg: err }
+                        );
+                    };
+                });             
+            });
+
+            res.status(200);
+
+        } catch {
+            console.error(error);
+            res.status(400);
+        };
+    });
+
+    // Corrigir datas que entram aqui e retornar elas corrigidas pro 'res'
+    app.get('/inputs/dates/append_current_date_into_json_into_database', function(req, res) {
+
+        information = JSON.parse(req.params.info)
+        
+        var date = new Date().toISOString()
+
+        information.date = date
+
+        try {
+            MongoClient.connect("mongodb://DATABASE-ADDRESS/DATABASE-NAME", function (err, db) {
+                    
+                db.collection('COLLECTION-NAME', function (err, collection) {
+                    
+                    collection.insert(information) {
+                        res.send(
+                            (err === null) ? { msg: '' } : { msg: err }
+                        );
+                    };
+                });             
+            });
+
+            res.status(200);
+
+        } catch {
+            console.error(error);
+            res.status(400);
+        };
+    
+    });
+
+    /////////////////////////////////////////////// MANDALA /////////////////////////////////////////////////////////////
+
+    // Corrigir datas que entram aqui e retornar elas corrigidas pro 'res'
+    app.get('/mandala/get_mandala_info_to_front', function(req, res) {
+
+        MongoClient.connect("mongodb://DATABASE-ADDRESS/DATABASE-NAME", function (err, db) {
+                
+            db.collection('COLLECTION-NAME', function (err, collection) {
+                
+                var information = JSON.parse(collection.get('mandala'));
+            });             
+        });
+
+        res.status(200).send(information);
+
+    });
+
 }
 
 
