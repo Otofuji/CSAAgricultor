@@ -7,11 +7,25 @@ var passport = require('passport');
 var isISODate = require( 'is-iso-date' );
 var MongoClient = require('mongodb').MongoClient;
 
+var compression = require('compression');
+
+
+
+
+
+var compression = require('compression');
+var helmet = require('helmet');
+	
+
+
 
 
 module.exports = (app, repository) => {
 
     //POST new user route (optional, everyone has access)
+    app.use(compression()); 
+    app.use(helmet());
+
     app.post('/users', auth.optional, function(req,res,next){
         var user = new User();
         user.username = req.body.user.username;
