@@ -6,7 +6,30 @@ var User = require('../models/user')
 var passport = require('passport');
 var isISODate = require( 'is-iso-date' );
 var MongoClient = require('mongodb').MongoClient;
+var compression = require('compression');
+var catalogRouter = require('./routes/catalog'); 
+var compression = require('compression');
 
+
+var app = express();
+
+
+
+app.use(compression()); 
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/catalog', catalogRouter); 
+
+var compression = require('compression');
+var helmet = require('helmet');
+
+
+var app = express();
+
+app.use(helmet());
 
 
 module.exports = (app, repository) => {

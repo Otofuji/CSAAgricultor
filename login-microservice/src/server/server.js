@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const passport = require('../config/passport');
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
+var compression = require('compression');
 
 var server = null;
 function start(api, repository, callback){
