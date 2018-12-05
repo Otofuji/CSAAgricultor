@@ -88,7 +88,7 @@ module.exports = (app, repository) => {
 });
 
     // Corrigir datas que entram aqui e retornar elas corrigidas pro 'res'
-    app.get('/inputs/dates/get_validate_date_format', function(req, res) {
+    app.get('/inputs/dates/get_validate_date_format/:dates', function(req, res) {
         var date_to_fix = req.params.dates;
 
         if (! isISODate( date_to_fix ) ){
@@ -165,6 +165,7 @@ module.exports = (app, repository) => {
         information.date = date
 
         try {
+
             MongoClient.connect("mongodb://DATABASE-ADDRESS/DATABASE-NAME", function (err, db) {
                     
                 db.collection('COLLECTION-NAME', function (err, collection) {
@@ -191,13 +192,13 @@ module.exports = (app, repository) => {
     // Corrigir datas que entram aqui e retornar elas corrigidas pro 'res'
     app.get('/mandala/get_mandala_info_to_front', function(req, res) {
 
-        MongoClient.connect("mongodb://DATABASE-ADDRESS/DATABASE-NAME", function (err, db) {
+        // MongoClient.connect("mongodb://DATABASE-ADDRESS/DATABASE-NAME", function (err, db) {
                 
-            db.collection('COLLECTION-NAME', function (err, collection) {
-                
+        //     db.collection('COLLECTION-NAME', function (err, collection) {
+        request('http://www.mocky.io/v2/5c07e735300000b638d25df6', function (error, response, body) {
                 var information = JSON.parse(collection.get('mandala'));
             });             
-        });
+        // });
 
         res.status(200).send(information);
 
