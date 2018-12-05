@@ -92,14 +92,10 @@ module.exports = (app, repository) => {
         var date_to_fix = req.params.dates;
 
         if (! isISODate( date_to_fix ) ){
-            try {
+            
                 var fixed_date = new Date(date_to_fix).toISOString()
                 res.status(200).send(fixed_date)
-            } catch {
-                console.log("O formato da data recebida nao foi reconhecido pelo parser de data, é necessario mudar o formato da data.");
-                console.error(error);
-                res.status(400)
-            }
+            
         } else {
             var fixed_date = date_to_fix
         }
@@ -121,38 +117,27 @@ module.exports = (app, repository) => {
         var date_to_fix = information.date;
 
         if (! isISODate( date_to_fix ) ) {
-            try {
+        
                 var fixed_date = new Date(date_to_fix).toISOString()
-            } catch {
-                console.log("O formato da data recebida nao foi reconhecido pelo parser de data, é necessario mudar o formato da data.");
-                console.error(error);
-                res.status(400)
-            }
+        
         } else {
             var fixed_date = date_to_fix
         }
 
         information.date = fixed_date
 
-        try {
+
             MongoClient.connect("mongodb://DATABASE-ADDRESS/DATABASE-NAME", function (err, db) {
                     
                 db.collection('COLLECTION-NAME', function (err, collection) {
                     
-                    collection.insert(information) {
-                        res.send(
-                            (err === null) ? { msg: '' } : { msg: err }
-                        );
-                    };
+                    collection.insert(information) 
                 });             
             });
 
             res.status(200);
 
-        } catch {
-            console.error(error);
-            res.status(400);
-        };
+        
     });
 
     // Corrigir datas que entram aqui e retornar elas corrigidas pro 'res'
@@ -164,26 +149,18 @@ module.exports = (app, repository) => {
 
         information.date = date
 
-        try {
-
+        
             MongoClient.connect("mongodb://DATABASE-ADDRESS/DATABASE-NAME", function (err, db) {
                     
                 db.collection('COLLECTION-NAME', function (err, collection) {
                     
-                    collection.insert(information) {
-                        res.send(
-                            (err === null) ? { msg: '' } : { msg: err }
-                        );
-                    };
+                    collection.insert(information) 
                 });             
             });
 
             res.status(200);
 
-        } catch {
-            console.error(error);
-            res.status(400);
-        };
+        
     
     });
 
